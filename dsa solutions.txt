@@ -1,3 +1,4 @@
+
  Zero Matrix
 int cols=1;
 for(int i=0;i<n;i++){
@@ -51,6 +52,7 @@ res=res/(i+1);
 }
 return (int) res;
 }
+
 public List<List<Integer>> generate(int numRows) {
 List<List<Integer>> ans1= new ArrayList<>();
 for(int i=1;i<=numRows;i++){
@@ -65,6 +67,23 @@ ans1.add(temp);
 return ans1;
 }
 
+}
+
+easy one
+
+public class Main {
+    public static void main(String[] args) {
+        int numRows = 5; // Change this to the number of rows you want to print
+
+        for (int n = 0; n < numRows; n++) {
+            int res = 1;
+            for (int i = 0; i <= n; i++) {
+                System.out.print(res + " ");
+                res = res * (n - i) / (i + 1);
+            }
+            System.out.println();
+        }
+    }
 }
 
 next permutation
@@ -152,7 +171,6 @@ arr[high]=arr[mid];
 arr[mid]=temp;
 high--;
 }
-
 }
 }
 
@@ -188,7 +206,7 @@ mat.get(j).set(i,temp);
 for(int i=0;i<numrows;i++){
 for(int j=0;j<(numcols/2);j++){
 int temp=mat.get(i).get(j);
-mat.get(i).set(j,mat.get(i).get(numcols-1-j));
+mat.get(i).set(j,mat.get(i).get(numcols-1-j)); 
 mat.get(i).set(numcols-1-j,temp);
 }
 }
@@ -614,7 +632,8 @@ x = x * x;
 nn = nn / 2;
 }
 }
-if (n < 0) ans = (double)(1.0) / (double)(ans);
+if (n < 0)
+ ans = (double)(1.0) / (double)(ans);
 return ans;
 }
 
@@ -1184,7 +1203,7 @@ temp.next=null;
 return head;
 
 
-}
+} 
 
 
 3 sum
@@ -1270,10 +1289,10 @@ public static int longestSubSeg(ArrayList<Integer> arr , int n, int k) {
 				}
 				left++;
 			}
-				maxi=Math.max(maxi, right-left+1);
+				maxi=Math.max(maxi, right-left+1);  
 			}
 		return maxi;
-
+}
 
 trapping rain water
 
@@ -1303,10 +1322,43 @@ static int trap(int[] height) {
     }
 
 
-clone a linked list
+clone a linked list with random links
 
 using hashmap its easy but consumes space
 
+public LinkedListNode cloneLinkedList(LinkedListNode head) {
+    if (head == null) {
+        return null; // Return null for an empty list
+    }
+
+    // Create a mapping from original nodes to their corresponding new nodes
+    Map<LinkedListNode, LinkedListNode> nodeMapping = new HashMap<>();
+
+    // Create a new head node for the cloned list
+    LinkedListNode newHead = new LinkedListNode(head.data);
+    nodeMapping.put(head, newHead);
+
+    LinkedListNode current = head;
+    LinkedListNode newCurrent = newHead;
+
+    // Traverse the original list and create the cloned list
+    while (current != null) {
+        if (current.next != null) {
+            if (!nodeMapping.containsKey(current.next)) {
+                nodeMapping.put(current.next, new LinkedListNode(current.next.data));
+            }
+            newCurrent.next = nodeMapping.get(current.next);
+        }
+
+        current = current.next;
+        newCurrent = newCurrent.next;
+    }
+
+    return newHead;
+}
+
+
+with no space
  public static Node cloneLL(Node head) {
         // Write your code here.
         Node temp=head;
@@ -1381,7 +1433,7 @@ public class Stack {
             return 0;
         }
         else{
-            return 1;
+            return -1;
         }
 
     }
@@ -1761,7 +1813,7 @@ public static List < Integer > getPreOrderTraversal(TreeNode root) {
                     if(node==null){
                         return ;
                     }
-					ans.add(node.data);
+		    ans.add(node.data);
                     preorder(node.left,ans);
                     
                     preorder(node.right,ans);
@@ -2605,20 +2657,24 @@ Symmetric Tree
 
 bubble sort
 
-public static void bubblesort(int[] arr,int n){
-        for(int i=0;i<n-2;i++){
-            for(int j=0;j<n-1;j++){
-                if(arr[j]>arr[j+1]){
-                    int temp=arr[j];
-                    arr[j]=arr[j+1];
-                    arr[j+1]=temp;
-                }
+public static void bubbleSort(int[] arr, int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - 1 - i; j++) { // Corrected loop condition
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
             }
         }
-        System.out.println("bubblesort");
-        for(int i:arr){
-            System.out.println(i+" ");
-        }
+    }
+    
+    System.out.println("Bubble Sort:");
+    for (int i : arr) {
+        System.out.print(i + " ");
+    }
+    System.out.println(); // Add a newline after printing the sorted array
+}
+
 
 selection sort
 
@@ -2825,3 +2881,166 @@ Reverse DLL nodes in groups
         // Store nodes in a list
         
     }
+
+
+import java.util.ArrayList;
+
+public class zigzagstring {
+    public static void main(String[] args) {
+        String str = "pneumonoultramicroscopicsilicovolcanoconiosis";
+        int n = 3;
+        String result = findZigZag(str, n);
+        System.out.println(result);
+    }
+
+    public static String findZigZag(String str, int n) {
+        if (n == 1 || str.length() <= n) {
+            return str;
+        }
+
+        ArrayList<String> ans = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            ans.add("");
+        }
+
+        int currentRow = 0;
+        boolean goingDown = false;
+
+        for (char ch : str.toCharArray()) {
+            ans.set(currentRow, ans.get(currentRow) + ch);
+
+            if (currentRow == 0 || currentRow == n - 1) {
+                goingDown = !goingDown;
+            }
+
+            currentRow += goingDown ? 1 : -1;
+        }
+
+        String result = "";
+        for (String row : ans) {
+            result += row;
+        }
+
+        return result;
+    }
+}
+
+
+pathanjali dsa
+import java.util.*;
+
+public class pathanjali {
+    public static void main(String[] args) {
+        String input = "abc50dkfj30sjfl50shde30dkf4kdk5h50j10f10";
+        int length = input.length();
+        Map<Integer, Integer> count = new TreeMap<>();
+        int left = 0;
+        int right = 0;
+
+        while (left < length) {
+            if (Character.isDigit(input.charAt(left))) {
+                right = left + 1;
+                while ( right < length && Character.isDigit(input.charAt(right))) {
+                    right++;
+                }
+                int num = Integer.parseInt(input.substring(left, right));
+                count.put(num, count.getOrDefault(num, 0) + 1);
+           left = right;
+            } else {
+                left++;
+            }
+        }
+
+        // Calculate the sum of non-repeating numbers
+       List<Integer> repeated=new ArrayList<>();
+       int sum=0;
+       for(Integer key:count.keySet()){
+        if(count.get(key)>1)
+        repeated.add(key);
+        else
+        sum+=key;
+       }
+        // Print the repeated numbers in ascending order
+        System.out.println("Repeated numbers (ascending order): " + repeated);
+        System.out.println("Sum of non-repeating numbers: " + sum);
+    }
+}
+
+
+decimal to roman
+
+import java.util.*;
+public class roman{
+    public static void main(String[]args){
+        String result=intToRoman(2580) ;
+        System.out.println(result);
+    }
+    public static String intToRoman(int num) {
+    // Create a TreeMap to store the mappings of decimal values to Roman numerals
+    TreeMap<Integer, String> romanMap = new TreeMap<>();
+    
+    // Add the mappings to the TreeMap
+    romanMap.put(1, "I");
+    romanMap.put(4, "IV");
+    romanMap.put(5, "V");
+    romanMap.put(9, "IX");
+    romanMap.put(10, "X");
+    romanMap.put(40, "XL");
+    romanMap.put(50, "L");
+    romanMap.put(90, "XC");
+    romanMap.put(100, "C");
+    romanMap.put(400, "CD");
+    romanMap.put(500, "D");
+    romanMap.put(900, "CM");
+    romanMap.put(1000, "M");
+    
+    // Initialize the result string
+    String result = "";
+    
+    // Iterate through the TreeMap in reverse order (descending)
+    // and subtract the largest possible value from the num while appending the corresponding Roman numeral
+    while (num > 0) {
+        Integer largestValue = romanMap.floorKey(num);
+        String romanSymbol = romanMap.get(largestValue);
+        result+=romanSymbol;
+        num -= largestValue;
+    }
+    
+    return result.toString();
+}
+}
+
+roman to decimal
+
+import java.util.HashMap;
+
+public class romantodecimal {
+    
+public static void main(String[]args){
+    String s="MMDLXXX";
+    
+     HashMap<Character, Integer> romanMap = new HashMap<>();
+        romanMap.put('I', 1);
+        romanMap.put('V', 5);
+        romanMap.put('X', 10);
+        romanMap.put('L', 50);
+        romanMap.put('C', 100);
+        romanMap.put('D', 500);
+        romanMap.put('M', 1000);
+    int result= romanMap.get(s.charAt(s.length()-1));
+
+    for(int i=s.length()-2;i>=0;i--){
+        if(romanMap.get(s.charAt(i))<romanMap.get(s.charAt(i+1))){
+            result-=romanMap.get(s.charAt(i));
+        }
+        else{
+            result+=romanMap.get(s.charAt(i));
+        }
+    }
+    System.out.println(result);
+
+
+}
+    
+}
+
