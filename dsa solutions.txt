@@ -190,7 +190,7 @@ return maxpro;
 }
 
 
-rotate matrix
+rotate matrix 90 clockwise
 
 int numrows = mat.size();
 int numcols = mat.get(0).size();
@@ -217,6 +217,48 @@ mat.get(i).set(numcols-1-j,temp);
 
 
 }
+
+matrix
+1 2 3 4
+5 6 7 8 
+9 10 11 12
+13 14 15 16
+
+(reverse
+4 3 2 1
+8 7 6 5
+12 11 10 9
+16 15 14 13
+
+reverse transpose
+4 8 12 16
+3 7 11 15
+2 6 10 14
+1 5 9 13 for anticlock
+anticlockwise
+4 8 12 16
+3 7 11 15
+2 6 10 14
+1 5 9 13)
+
+
+
+(transpose
+1 5 9 13
+2 6 10 14
+3 7 11 15
+4 8 12 16
+
+transpose reverse
+13 9 5 1
+14 10 6 2
+15 11 7 3
+16 12 8 4
+clockwise
+13 9 5 1
+14 10 6 2
+15 11 7 3
+16 12 8 4)
 
 merge two sorted arrays
 
@@ -568,14 +610,17 @@ second = second.next;
 temp = temp.next;
 }
 
-if (first != null) {
-temp.next = first;
+while (first != null) {
+    temp.next = first;
+    temp = temp.next; // Move temp pointer forward
+    first = first.next;
 }
 
-if (second != null) {
-temp.next = second;
+while (second != null) {
+    temp.next = second;
+    temp = temp.next; // Move temp pointer forward
+    second = second.next;
 }
-
 return dummy.next;
 }
 }
@@ -1833,7 +1878,6 @@ public static List < Integer > getPreOrderTraversal(TreeNode root) {
                     }
 					
                     preorder(node.left,ans);
-                    
                     preorder(node.right,ans);
                     ans.add(node.data);
 }
@@ -2215,7 +2259,7 @@ public static void traverse(BinaryTreeNode node,String path,ArrayList<String> re
 
 level order traversal
 
- public static ArrayList<Integer> zigzagTreeTraversal(TreeNode<Integer> root) 
+ public static ArrayList<Integer> LevelOrderTraversal(TreeNode<Integer> root) 
     {
         //    Write your code here.
        public List<List<Integer>> levelOrder(TreeNode root) {
@@ -2657,7 +2701,7 @@ return true;
 else if(left== null || right==null)
 return false;
 
-return ((left.data.equls(right.data)&&isit(left.left,right.right) && isit(left.right,right.left));
+return ((left.data.equals(right.data)&&isit(left.left,right.right) && isit(left.right,right.left));
 
 
 bubble sort
@@ -2706,7 +2750,7 @@ public static void selectionsort(int[] arr,int n){
 insertion sort
 
 public static void insertionsort(int[] arr,int n){
-         for(int i=0;i<=n-1;i++){
+         for(int i=0;i<n;i++){
             int j=i;
             while(j>0 && arr[j-1]>arr[j]){
                 int temp=arr[j-1];
@@ -3036,4 +3080,113 @@ public static void main(String[]args){
     
 }
 
+second largest
+public class SecondLargestNumberFromTheArray {
+    public static void main(String[] args) {
 
+        int arr[] = { 1, 4, 35, 34, 35, 35 };
+
+        int largest = arr[0];
+        int secondLargest = arr[0];
+
+        for (int i = 0; i < arr.length; i++) {
+            if (largest < arr[i]) {
+                secondLargest = largest;
+                largest = arr[i];
+            } else if (secondLargest < arr[i]) {
+                secondLargest = arr[i];
+            }
+        }
+
+        System.out.println(secondLargest);
+    }
+}
+
+
+BFS
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class Bfs {
+    public static void main(String[] args) {
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>();
+        Queue<Integer> q=new LinkedList<>();
+        int n = 6;
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+        adj.get(0).add(1);
+        adj.get(0).add(2);
+        adj.get(0).add(3);
+        adj.get(2).addAll(Arrays.asList(4,5));
+
+        boolean visited[]=new boolean[6];
+        visited[0]=true;
+        q.add(0);
+
+        while(!q.isEmpty()){
+            int node=q.remove();
+            System.out.println(node);
+
+            for(int cj:adj.get(node) ){
+                if(!visited[cj]){
+                   visited[cj]=true;
+                   q.add(cj);
+                }
+            }
+        }
+
+
+    }
+}
+
+
+DFS
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Dfs {
+    public static void main(String[]args){
+    ArrayList<Integer> q=new ArrayList<>();
+        int n=9;
+    ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+     adj.get(1).addAll(Arrays.asList(2,3,4,5));
+        adj.get(2).addAll(Arrays.asList(1,6));
+        /*adj.get(3).add(8);
+        adj.get(4).add(8);
+        adj.get(5).add(1);*/
+        adj.get(3).addAll(Arrays.asList(1,6));
+        //adj.get(7).add(6);
+        adj.get(4).addAll(Arrays.asList(1,7));
+        adj.get(5).addAll(Arrays.asList(1,7));
+        adj.get(6).addAll(Arrays.asList(2,3,8));
+        adj.get(7).addAll(Arrays.asList(4,5,8));
+        adj.get(8).addAll(Arrays.asList(6,7));
+       /* adj.get(9).add(2);
+        adj.get(10).add(6);*/
+
+    boolean visited[]=new boolean[n];
+    visited[1]=true;
+
+        Dfs(1,adj,visited,q);
+        for(int i:q){
+        System.out.println(i);
+    }
+}
+public static ArrayList<Integer> Dfs( int node,ArrayList<ArrayList<Integer>> adj,boolean[] visited, ArrayList<Integer> q){
+        visited[node]=true;
+        q.add(node);
+        for(int cj:adj.get(node)){
+            if(!visited[cj]) {
+                Dfs(cj,adj,visited,q);
+            }
+        }
+        return q;
+    }
+}
